@@ -40,17 +40,17 @@ namespace my_pid
         double controller_output = 0.0;
         double plant_feedback = 0.0;
         double gain;
+        int OnOff;
         private void tmr_controller_Tick(object sender, EventArgs e)
         {
-            //this.controller_output = this.pid_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
+            ON_OFF_Controller_general generl_ctrl = new ON_OFF_Controller_general();
+            this.OnOff = generl_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
 
-            int OnOff = this.generl_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
-
-            if (OnOff == 1)
+            if (this.OnOff == 1)
             {
                 this.controller_output += this.gain;
             }
-            if (OnOff == 0)
+            if (this.OnOff == 0)
             {
                 this.controller_output -= this.gain;
             }
@@ -62,7 +62,7 @@ namespace my_pid
 
             PV = PV + (this.controller_output * 0.20) - (PV * 0.10);
 
-            this.clamp(ref PV, -1000, 1000);
+            this.clamp(ref PV, -1000.1, 1000);
 
             this.plant_feedback = PV;
 
@@ -161,6 +161,7 @@ namespace my_pid
             this.chart_pid.plt.AxisAuto();
             this.chart_pid.Render();
             this.dtxt_output.Text = $"{this.controller_output:0.0000}";
+            this.stxt_output.Text = $"Output {this.OnOff}";
         }
 
 

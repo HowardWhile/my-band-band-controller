@@ -10,21 +10,21 @@ namespace AIM.Modules
 
     class ON_OFF_Controller_general
     {
-        public ON_OFF_Controller_general(bool iReverse = false)
+        public ON_OFF_Controller_general()
         {
-            this.IsOutputReverse = iReverse;
+
         }        
 
         // return 1: ON, 0: OFF
         public int Update_Once(double setpoint, double feedback)
         {
-            if (IsOutputReverse)
-                return setpoint <= feedback ? 1 : 0;
+            double err = setpoint - feedback;
+            if (err > 0)
+                return 1;
             else
-                return setpoint >= feedback ? 1 : 0;
+                return 0;
         }
 
-        public bool IsOutputReverse;
     }
 
     class ON_OFF_Controller_hysteresis 

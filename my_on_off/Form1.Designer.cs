@@ -56,6 +56,7 @@ namespace my_pid
             // tmr_controller
             // 
             this.tmr_controller.Enabled = true;
+            this.tmr_controller.Interval = 50;
             this.tmr_controller.Tick += new System.EventHandler(this.tmr_controller_Tick);
             // 
             // chart_pid
@@ -91,7 +92,7 @@ namespace my_pid
             2,
             0,
             0,
-            65536});
+            0});
             this.num_gain.ValueChanged += new System.EventHandler(this.num_ValueChanged);
             // 
             // gbox_p
@@ -99,35 +100,33 @@ namespace my_pid
             this.gbox_p.Controls.Add(this.tableLayoutPanel1);
             this.gbox_p.Location = new System.Drawing.Point(12, 58);
             this.gbox_p.Name = "gbox_p";
-            this.gbox_p.Size = new System.Drawing.Size(260, 58);
+            this.gbox_p.Size = new System.Drawing.Size(76, 58);
             this.gbox_p.TabIndex = 3;
             this.gbox_p.TabStop = false;
             this.gbox_p.Text = "Gain";
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
-            this.tableLayoutPanel1.Controls.Add(this.dtxt_output, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.stxt_output, 1, 0);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.num_gain, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 18);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(254, 37);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(70, 37);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // dtxt_output
             // 
             this.dtxt_output.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtxt_output.AutoSize = true;
-            this.dtxt_output.Location = new System.Drawing.Point(143, 12);
+            this.dtxt_output.Location = new System.Drawing.Point(165, 85);
             this.dtxt_output.Name = "dtxt_output";
-            this.dtxt_output.Size = new System.Drawing.Size(108, 12);
+            this.dtxt_output.Size = new System.Drawing.Size(17, 12);
             this.dtxt_output.TabIndex = 4;
             this.dtxt_output.Text = "---";
             // 
@@ -135,9 +134,9 @@ namespace my_pid
             // 
             this.stxt_output.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.stxt_output.AutoSize = true;
-            this.stxt_output.Location = new System.Drawing.Point(73, 12);
+            this.stxt_output.Location = new System.Drawing.Point(94, 85);
             this.stxt_output.Name = "stxt_output";
-            this.stxt_output.Size = new System.Drawing.Size(64, 12);
+            this.stxt_output.Size = new System.Drawing.Size(37, 12);
             this.stxt_output.TabIndex = 3;
             this.stxt_output.Text = "Output";
             // 
@@ -158,7 +157,7 @@ namespace my_pid
             this.tbar_interval_ms.TabIndex = 8;
             this.tbar_interval_ms.TickFrequency = 50;
             this.tbar_interval_ms.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.tbar_interval_ms.Value = 100;
+            this.tbar_interval_ms.Value = 50;
             this.tbar_interval_ms.Scroll += new System.EventHandler(this.tbar_interval_ms_Scroll);
             // 
             // gbox_interval
@@ -169,7 +168,7 @@ namespace my_pid
             this.gbox_interval.Size = new System.Drawing.Size(260, 48);
             this.gbox_interval.TabIndex = 9;
             this.gbox_interval.TabStop = false;
-            this.gbox_interval.Text = "Interval 100ms";
+            this.gbox_interval.Text = "Interval -- ms";
             // 
             // gbox_setpoint
             // 
@@ -219,7 +218,9 @@ namespace my_pid
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(698, 359);
+            this.Controls.Add(this.dtxt_output);
             this.Controls.Add(this.ckbox_stop_controller);
+            this.Controls.Add(this.stxt_output);
             this.Controls.Add(this.gbox_interval);
             this.Controls.Add(this.gbox_setpoint);
             this.Controls.Add(this.gbox_p);
@@ -231,7 +232,6 @@ namespace my_pid
             ((System.ComponentModel.ISupportInitialize)(this.num_gain)).EndInit();
             this.gbox_p.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbar_interval_ms)).EndInit();
             this.gbox_interval.ResumeLayout(false);
             this.gbox_setpoint.ResumeLayout(false);
