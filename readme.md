@@ -2,39 +2,73 @@
 
 # ON_OFF_Controller.cs
 
-![1](pic/readme/1.gif)
+![4](pic/readme/4.gif)
 
 ## Example
 
-![img](pic/readme/1920px-PID_en.svg.png)
+### General on-off control output
 
-### In short
+![On-off control output](pic/readme/On-off-control-output-283x300.png)
 
-```csharp
-// KP = 0.2
-// kI = 0.01
-// KD = 1.0
-// control interval = 0.1 sec
-PIDController pid_ctrl = new PIDController(0.2, 0.01, 1.0, 0.1);
+```c#
+var generl_ctrl = new ON_OFF_Controller_general();
+int OnOff = generl_ctrl.Update_Once(this.setpoint, this.plant_feedback);
+
+if (OnOff == 1)
+    this.controller_output += gain;
+if (OnOff == 0)
+    this.controller_output -= gain;
 ```
 
-```csharp
-double setpoint;// r(t)
-double feedback;// y(t)
-double output; // u(t)
-output = this.pid_ctrl.Update_Once(setpoint, feedback);
+### On-off control with hysteresis output
+
+![On-off control with hysteresis output](pic/readme/On-off-control-with-hysteresis-output-287x300.png)
+
+```c#
+private ON_OFF_Controller_hysteresis hysteresis_ctrl;
+void initialize()
+{
+    this.hysteresis_ctrl = new ON_OFF_Controller_hysteresis(hysteresis); 
+}
 ```
 
+```c#
+int OnOff = this.hysteresis_ctrl.Update_Once(this.setpoint, this.plant_feedback);
 
-
-### Modify PID parameter
-
-```csharp
-// void Update_PID(double P, double I, double D)
-this.pid_ctrl.Update_PID(P,I,D);
-// void Update_Interval(double second)
-this.pid_ctrl.Update_PID(second);
+if (OnOff == 1)
+    this.controller_output += gain;
+if (OnOff == 0)
+    this.controller_output -= gain;
 ```
+
+### On-off control with dead-band output
+
+![On-off control with deadband output](pic/readme/On-off-control-with-deadband-output-287x300.png)
+
+```c#
+private ON_OFF_Controller_deadband deadband_ctrl;
+void initialize()
+{
+    this.deadband_ctrl = new ON_OFF_Controller_deadband(deadband);
+}
+```
+
+```c#
+int OnOff = this.deadband_ctrl.Update_Once(setpoint, plant_feedback);
+
+if (OnOff == 1) // FWD
+	this.controller_output += this.gain;
+if (this.OnOff == 0) // IDLE
+    this.controller_output = this.controller_output; 
+ if (OnOff == -1) // BWD  
+     this.controller_output -= this.gain;
+```
+
+### On-off control with dead-band + hysteresis
+
+![image-20201228160141808](pic/readme/image-20201228160141808.png)
+
+
 
 
 
