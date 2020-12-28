@@ -262,11 +262,13 @@ namespace my_pid
             this.cbox_mode.Items.AddRange(new object[] {
             "General",
             "Hysteresis",
-            "Deadband"});
+            "Deadband",
+            "Deadband + Hysteresis"});
             this.cbox_mode.Location = new System.Drawing.Point(3, 8);
             this.cbox_mode.Name = "cbox_mode";
             this.cbox_mode.Size = new System.Drawing.Size(124, 20);
             this.cbox_mode.TabIndex = 0;
+            this.cbox_mode.SelectedIndexChanged += new System.EventHandler(this.cbox_mode_SelectedIndexChanged);
             // 
             // gbox_hysteresis
             // 

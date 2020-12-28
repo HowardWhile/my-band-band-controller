@@ -59,34 +59,50 @@ namespace AIM.Modules
 
     class ON_OFF_Controller_deadband
     {
-        public ON_OFF_Controller_deadband(double iDeadBand, double iDB_Proportion = 0.5)
+        public ON_OFF_Controller_deadband(double iDeadBand, double iDB2H_scale = 1.0)
         {
             this.DeadBand = iDeadBand;
-            this.DeadBand_Proportion = iDB_Proportion;
+            this.Hysteresis = this.DeadBand * iDB2H_scale;
         }
 
         // return 1: FWD, 0: OFF, -1 BWD
         public int Update_Once(double setpoint, double feedback)
         {
             double err = setpoint - feedback;
-            double DB2 = this.DeadBand / 2;
-            if (err > DB2)
+            double H2 = this.Hysteresis / 2;
+            if (err > H2)
             {
+                this.last_status = 1;
                 return 1;
             }
-            else if (err < -DB2)
+            else if (err < -H2)
             {
+                this.last_status = -1;
                 return -1;
             }
             else
-                return 0;           
-
+            {
+                double DB2 = this.DeadBand / 2;
+                if (Math.Abs(err) <= DB2)
+                {
+                    this.last_status = 0;
+                    return 0;
+                }
+                else
+                {
+                    return this.last_status;
+                }
+            }
         }
 
         public double DeadBand;
-        public double DeadBand_Proportion;
+        public double Hysteresis;
+        private int last_status = 0;
 
-        private bool last_status = false;
-
+        public double DB2H 
+        { 
+            get => Hysteresis/DeadBand; 
+            set => Hysteresis = DeadBand*value; 
+        }
     }
 }

@@ -69,14 +69,32 @@ namespace my_pid
             }
             else if (this.cbox_mode.SelectedIndex == 2)
             {
+                this.deadband_ctrl.DB2H = 1.0;
+
                 this.OnOff = this.deadband_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
                 if (this.OnOff == 1)
                     this.controller_output += this.gain; // FWD
                 if (this.OnOff == 0)
-                    this.controller_output = this.controller_output; // IDLE
+                {
+                    // IDLE
+                }
                 if (this.OnOff == -1)
                     this.controller_output -= this.gain; // BWD
 
+            }
+            else if (this.cbox_mode.SelectedIndex == 3)
+            {
+                this.deadband_ctrl.Hysteresis = (double)this.num_hysteresis.Value;
+
+                this.OnOff = this.deadband_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
+                if (this.OnOff == 1)
+                    this.controller_output += this.gain; // FWD
+                if (this.OnOff == 0)
+                {
+                    // IDLE
+                }
+                if (this.OnOff == -1)
+                    this.controller_output -= this.gain; // BWD
             }
         }
 
@@ -117,7 +135,7 @@ namespace my_pid
         {
             this.gain = (double)this.num_gain.Value;
             this.hysteresis_ctrl.Hysteresis = (double)this.num_hysteresis.Value;
-            this.deadband_ctrl.DeadBand = (double)this.num_deadband.Value;
+            this.deadband_ctrl.DeadBand = (double)this.num_deadband.Value;            
         }
 
         private void tbar_interval_ms_Scroll(object sender, EventArgs e)
@@ -190,6 +208,32 @@ namespace my_pid
             this.stxt_output.Text = $"Output {this.OnOff}";
         }
 
+        private void cbox_mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int idx = cbox_mode.SelectedIndex;
 
+            switch (idx)
+            {
+                case 0:
+                    this.gbox_hysteresis.Enabled = false;
+                    this.gbox_deadband.Enabled = false;
+                    break;
+                case 1:
+                    this.gbox_hysteresis.Enabled = true;
+                    this.gbox_deadband.Enabled = false;
+                    break;
+                case 2:
+                    this.gbox_hysteresis.Enabled = false;
+                    this.gbox_deadband.Enabled = true;
+                    break;
+                case 3:
+                    this.gbox_hysteresis.Enabled = true;
+                    this.gbox_deadband.Enabled = true;
+                    break;
+                default:
+                    break;
+            }
+
+        }
     }
 }
