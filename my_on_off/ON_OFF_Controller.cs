@@ -29,60 +29,62 @@ namespace AIM.Modules
 
     class ON_OFF_Controller_hysteresis 
     {
+        public ON_OFF_Controller_hysteresis(double iHysteresis)
+        {
+            this.Hysteresis = iHysteresis;
+        }
+        public int Update_Once(double setpoint, double feedback)
+        {
+            double err = feedback - setpoint;
+            double H2 = this.Hysteresis / 2;
+            if (err > H2)
+            {
+                this.last_status = 0;
+                return 0;
+            }
+            else if (err < -H2)
+            {
+                this.last_status = 1;
+                return 1;
+            }
+            else
+                return this.last_status;
+        }
+
+        public double Hysteresis;
+
+        private int last_status;
 
     }
 
     class ON_OFF_Controller_deadband
     {
-        ON_OFF_Controller_deadband(double iDeadBand, double iDB_Proportion = 0.5, bool iReverse = false)
+        public ON_OFF_Controller_deadband(double iDeadBand, double iDB_Proportion = 0.5)
         {
             this.DeadBand = iDeadBand;
             this.DeadBand_Proportion = iDB_Proportion;
-            this.IsOutputReverse = iReverse;
         }
 
         // return 1: FWD, 0: OFF, -1 BWD
         public int Update_Once(double setpoint, double feedback)
         {
-            // ON OFF
-            bool enable;
-            double err = Math.Abs(setpoint - feedback);
-            if (err > this.DeadBand)
+            double err = setpoint - feedback;
+            double DB2 = this.DeadBand / 2;
+            if (err > DB2)
             {
-                enable = true;
+                return 1;
+            }
+            else if (err < -DB2)
+            {
+                return -1;
             }
             else
-            {
-                double accuracy_div = this.DeadBand * this.DeadBand_Proportion;
-                if (err < accuracy_div)
-                {
-                    enable = false; // off
-                }
-                else
-                {
-                    enable = this.last_status; // 維持之前狀態
-                }
-            }
-            this.last_status = enable;
-
-            // FWD BWD
-            int rValue;
-            if (enable)
-                rValue = setpoint > feedback ? 1 : -1;
-            else
-                rValue = 0;
-
-            // Reverse
-            if (this.IsOutputReverse)
-                rValue = -rValue;
-
-            return rValue;
+                return 0;           
 
         }
 
         public double DeadBand;
         public double DeadBand_Proportion;
-        public bool IsOutputReverse;
 
         private bool last_status = false;
 

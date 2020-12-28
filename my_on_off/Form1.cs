@@ -25,16 +25,22 @@ namespace my_pid
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            this.cbox_mode.SelectedIndex = 0;
         }
 
         #region Controller_And_Plant
 
-        ON_OFF_Controller_general generl_ctrl = new ON_OFF_Controller_general();
-
+        ON_OFF_Controller_general generl_ctrl;
+        ON_OFF_Controller_hysteresis hysteresis_ctrl;
+        ON_OFF_Controller_deadband deadband_ctrl;
         private void controller_init()
         {
             this.gain = (double)this.num_gain.Value;
+
+            this.generl_ctrl = new ON_OFF_Controller_general();
+            this.hysteresis_ctrl = new ON_OFF_Controller_hysteresis((double)this.num_hysteresis.Value);
+            this.deadband_ctrl = new ON_OFF_Controller_deadband((double)this.num_deadband.Value);
+
         }
 
         double controller_output = 0.0;
@@ -43,16 +49,34 @@ namespace my_pid
         int OnOff;
         private void tmr_controller_Tick(object sender, EventArgs e)
         {
-            ON_OFF_Controller_general generl_ctrl = new ON_OFF_Controller_general();
-            this.OnOff = generl_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
+            if (this.cbox_mode.SelectedIndex == 0)
+            {
+                this.OnOff = this.generl_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
 
-            if (this.OnOff == 1)
-            {
-                this.controller_output += this.gain;
+                if (this.OnOff == 1)
+                    this.controller_output += this.gain;
+                if (this.OnOff == 0)
+                    this.controller_output -= this.gain;
             }
-            if (this.OnOff == 0)
+            else if (this.cbox_mode.SelectedIndex == 1)
             {
-                this.controller_output -= this.gain;
+                this.OnOff = this.hysteresis_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
+
+                if (this.OnOff == 1)
+                    this.controller_output += this.gain;
+                if (this.OnOff == 0)
+                    this.controller_output -= this.gain;
+            }
+            else if (this.cbox_mode.SelectedIndex == 2)
+            {
+                this.OnOff = this.deadband_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
+                if (this.OnOff == 1)
+                    this.controller_output += this.gain; // FWD
+                if (this.OnOff == 0)
+                    this.controller_output = this.controller_output; // IDLE
+                if (this.OnOff == -1)
+                    this.controller_output -= this.gain; // BWD
+
             }
         }
 
@@ -92,6 +116,8 @@ namespace my_pid
         private void num_ValueChanged(object sender, EventArgs e)
         {
             this.gain = (double)this.num_gain.Value;
+            this.hysteresis_ctrl.Hysteresis = (double)this.num_hysteresis.Value;
+            this.deadband_ctrl.DeadBand = (double)this.num_deadband.Value;
         }
 
         private void tbar_interval_ms_Scroll(object sender, EventArgs e)

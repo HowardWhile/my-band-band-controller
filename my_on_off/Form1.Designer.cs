@@ -44,6 +44,15 @@ namespace my_pid
             this.tbar_setpoint = new System.Windows.Forms.TrackBar();
             this.tmr_plant_sim = new System.Windows.Forms.Timer(this.components);
             this.ckbox_stop_controller = new System.Windows.Forms.CheckBox();
+            this.gbox_mode = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.cbox_mode = new System.Windows.Forms.ComboBox();
+            this.gbox_hysteresis = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.num_hysteresis = new System.Windows.Forms.NumericUpDown();
+            this.gbox_deadband = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.num_deadband = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.num_gain)).BeginInit();
             this.gbox_p.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -51,6 +60,14 @@ namespace my_pid
             this.gbox_interval.SuspendLayout();
             this.gbox_setpoint.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbar_setpoint)).BeginInit();
+            this.gbox_mode.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.gbox_hysteresis.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_hysteresis)).BeginInit();
+            this.gbox_deadband.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_deadband)).BeginInit();
             this.SuspendLayout();
             // 
             // tmr_controller
@@ -86,7 +103,7 @@ namespace my_pid
             0,
             0});
             this.num_gain.Name = "num_gain";
-            this.num_gain.Size = new System.Drawing.Size(64, 22);
+            this.num_gain.Size = new System.Drawing.Size(69, 22);
             this.num_gain.TabIndex = 2;
             this.num_gain.Value = new decimal(new int[] {
             2,
@@ -98,9 +115,9 @@ namespace my_pid
             // gbox_p
             // 
             this.gbox_p.Controls.Add(this.tableLayoutPanel1);
-            this.gbox_p.Location = new System.Drawing.Point(12, 58);
+            this.gbox_p.Location = new System.Drawing.Point(6, 76);
             this.gbox_p.Name = "gbox_p";
-            this.gbox_p.Size = new System.Drawing.Size(76, 58);
+            this.gbox_p.Size = new System.Drawing.Size(81, 58);
             this.gbox_p.TabIndex = 3;
             this.gbox_p.TabStop = false;
             this.gbox_p.Text = "Gain";
@@ -117,14 +134,14 @@ namespace my_pid
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(70, 37);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(75, 37);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // dtxt_output
             // 
             this.dtxt_output.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dtxt_output.AutoSize = true;
-            this.dtxt_output.Location = new System.Drawing.Point(165, 85);
+            this.dtxt_output.Location = new System.Drawing.Point(94, 151);
             this.dtxt_output.Name = "dtxt_output";
             this.dtxt_output.Size = new System.Drawing.Size(17, 12);
             this.dtxt_output.TabIndex = 4;
@@ -134,7 +151,7 @@ namespace my_pid
             // 
             this.stxt_output.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.stxt_output.AutoSize = true;
-            this.stxt_output.Location = new System.Drawing.Point(94, 85);
+            this.stxt_output.Location = new System.Drawing.Point(10, 151);
             this.stxt_output.Name = "stxt_output";
             this.stxt_output.Size = new System.Drawing.Size(37, 12);
             this.stxt_output.TabIndex = 3;
@@ -168,7 +185,7 @@ namespace my_pid
             this.gbox_interval.Size = new System.Drawing.Size(260, 48);
             this.gbox_interval.TabIndex = 9;
             this.gbox_interval.TabStop = false;
-            this.gbox_interval.Text = "Interval -- ms";
+            this.gbox_interval.Text = "Interval 100 ms";
             // 
             // gbox_setpoint
             // 
@@ -213,16 +230,157 @@ namespace my_pid
             this.ckbox_stop_controller.UseVisualStyleBackColor = true;
             this.ckbox_stop_controller.CheckedChanged += new System.EventHandler(this.ckbox_stop_controller_CheckedChanged);
             // 
+            // gbox_mode
+            // 
+            this.gbox_mode.Controls.Add(this.tableLayoutPanel2);
+            this.gbox_mode.Location = new System.Drawing.Point(3, 12);
+            this.gbox_mode.Name = "gbox_mode";
+            this.gbox_mode.Size = new System.Drawing.Size(136, 58);
+            this.gbox_mode.TabIndex = 4;
+            this.gbox_mode.TabStop = false;
+            this.gbox_mode.Text = "Mode";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Controls.Add(this.cbox_mode, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 18);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(130, 37);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // cbox_mode
+            // 
+            this.cbox_mode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbox_mode.FormattingEnabled = true;
+            this.cbox_mode.Items.AddRange(new object[] {
+            "General",
+            "Hysteresis",
+            "Deadband"});
+            this.cbox_mode.Location = new System.Drawing.Point(3, 8);
+            this.cbox_mode.Name = "cbox_mode";
+            this.cbox_mode.Size = new System.Drawing.Size(124, 20);
+            this.cbox_mode.TabIndex = 0;
+            // 
+            // gbox_hysteresis
+            // 
+            this.gbox_hysteresis.Controls.Add(this.tableLayoutPanel3);
+            this.gbox_hysteresis.Location = new System.Drawing.Point(93, 76);
+            this.gbox_hysteresis.Name = "gbox_hysteresis";
+            this.gbox_hysteresis.Size = new System.Drawing.Size(81, 58);
+            this.gbox_hysteresis.TabIndex = 3;
+            this.gbox_hysteresis.TabStop = false;
+            this.gbox_hysteresis.Text = "Hysteresis";
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Controls.Add(this.num_hysteresis, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 18);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(75, 37);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // num_hysteresis
+            // 
+            this.num_hysteresis.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.num_hysteresis.DecimalPlaces = 5;
+            this.num_hysteresis.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            262144});
+            this.num_hysteresis.Location = new System.Drawing.Point(3, 7);
+            this.num_hysteresis.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.num_hysteresis.Name = "num_hysteresis";
+            this.num_hysteresis.Size = new System.Drawing.Size(69, 22);
+            this.num_hysteresis.TabIndex = 2;
+            this.num_hysteresis.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.num_hysteresis.ValueChanged += new System.EventHandler(this.num_ValueChanged);
+            // 
+            // gbox_deadband
+            // 
+            this.gbox_deadband.Controls.Add(this.tableLayoutPanel4);
+            this.gbox_deadband.Location = new System.Drawing.Point(180, 76);
+            this.gbox_deadband.Name = "gbox_deadband";
+            this.gbox_deadband.Size = new System.Drawing.Size(81, 58);
+            this.gbox_deadband.TabIndex = 3;
+            this.gbox_deadband.TabStop = false;
+            this.gbox_deadband.Text = "Deadband";
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.Controls.Add(this.num_deadband, 0, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 18);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(75, 37);
+            this.tableLayoutPanel4.TabIndex = 0;
+            // 
+            // num_deadband
+            // 
+            this.num_deadband.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.num_deadband.DecimalPlaces = 5;
+            this.num_deadband.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            262144});
+            this.num_deadband.Location = new System.Drawing.Point(3, 7);
+            this.num_deadband.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.num_deadband.Name = "num_deadband";
+            this.num_deadband.Size = new System.Drawing.Size(69, 22);
+            this.num_deadband.TabIndex = 2;
+            this.num_deadband.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.num_deadband.ValueChanged += new System.EventHandler(this.num_ValueChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(698, 359);
+            this.Controls.Add(this.gbox_mode);
             this.Controls.Add(this.dtxt_output);
             this.Controls.Add(this.ckbox_stop_controller);
             this.Controls.Add(this.stxt_output);
             this.Controls.Add(this.gbox_interval);
             this.Controls.Add(this.gbox_setpoint);
+            this.Controls.Add(this.gbox_deadband);
+            this.Controls.Add(this.gbox_hysteresis);
             this.Controls.Add(this.gbox_p);
             this.Controls.Add(this.chart_pid);
             this.MinimumSize = new System.Drawing.Size(530, 340);
@@ -236,6 +394,14 @@ namespace my_pid
             this.gbox_interval.ResumeLayout(false);
             this.gbox_setpoint.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tbar_setpoint)).EndInit();
+            this.gbox_mode.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.gbox_hysteresis.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.num_hysteresis)).EndInit();
+            this.gbox_deadband.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.num_deadband)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,6 +422,15 @@ namespace my_pid
         private System.Windows.Forms.TrackBar tbar_setpoint;
         private System.Windows.Forms.Timer tmr_plant_sim;
         private System.Windows.Forms.CheckBox ckbox_stop_controller;
+        private System.Windows.Forms.GroupBox gbox_mode;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.ComboBox cbox_mode;
+        private System.Windows.Forms.GroupBox gbox_hysteresis;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.NumericUpDown num_hysteresis;
+        private System.Windows.Forms.GroupBox gbox_deadband;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.NumericUpDown num_deadband;
     }
 }
 
