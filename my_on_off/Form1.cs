@@ -30,21 +30,30 @@ namespace my_pid
 
         #region Controller_And_Plant
 
-        PIDController pid_ctrl;
+        ON_OFF_Controller_general generl_ctrl = new ON_OFF_Controller_general();
+
         private void controller_init()
         {
-            this.pid_ctrl = new PIDController(
-                (double)this.num_kp.Value,
-                (double)this.num_ki.Value,
-                (double)this.num_kd.Value,
-                tbar_interval_ms.Value/1000.0);
+            this.gain = (double)this.num_gain.Value;
         }
 
         double controller_output = 0.0;
         double plant_feedback = 0.0;
-        private void tmr_pid_controller_Tick(object sender, EventArgs e)
+        double gain;
+        private void tmr_controller_Tick(object sender, EventArgs e)
         {
-            this.controller_output = this.pid_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
+            //this.controller_output = this.pid_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
+
+            int OnOff = this.generl_ctrl.Update_Once(this.tbar_setpoint.Value, this.plant_feedback);
+
+            if (OnOff == 1)
+            {
+                this.controller_output += this.gain;
+            }
+            if (OnOff == 0)
+            {
+                this.controller_output -= this.gain;
+            }
         }
 
         private void tmr_plant_sim_Tick(object sender, EventArgs e)
@@ -66,7 +75,7 @@ namespace my_pid
             bool enable = !this.ckbox_stop_controller.Checked;
             this.tmr_display.Enabled = enable;
             this.tmr_plant_sim.Enabled = enable;
-            this.tmr_pid_controller.Enabled = enable;
+            this.tmr_controller.Enabled = enable;
         }
         public void clamp(ref double io_value, double i_min, double i_max)
         {
@@ -82,18 +91,13 @@ namespace my_pid
         #region Controller_Parameter
         private void num_ValueChanged(object sender, EventArgs e)
         {
-            this.pid_ctrl.Update_PID(
-                (double)this.num_kp.Value,
-                (double)this.num_ki.Value,
-                (double)this.num_kd.Value);
+            this.gain = (double)this.num_gain.Value;
         }
 
         private void tbar_interval_ms_Scroll(object sender, EventArgs e)
         {
             int ms = tbar_interval_ms.Value;
-            this.pid_ctrl.Update_Interval(ms/1000.0);
-            this.tmr_pid_controller.Interval = ms;
-
+            this.tmr_controller.Interval = ms;
             this.gbox_interval.Text = $"Interval = {ms}ms";
         }
 
@@ -122,7 +126,7 @@ namespace my_pid
 
             this.chart_pid.plt.XLabel("Step (times)");
             this.chart_pid.plt.YLabel("Process Value");
-            this.chart_pid.plt.Legend();
+            this.chart_pid.plt.Legend(location: ScottPlot.legendLocation.lowerLeft);
         }
 
         int shift_index = 0;
@@ -156,14 +160,7 @@ namespace my_pid
         {
             this.chart_pid.plt.AxisAuto();
             this.chart_pid.Render();
-            this.update_pid_info();
-        }
-
-        private void update_pid_info()
-        {
-            this.dtxt_error.Text = $"{this.pid_ctrl.Error:0.0000}";
-            this.dtxt_integral.Text = $"{this.pid_ctrl.Integral:0.0000}";
-            this.dtxt_derivative.Text = $"{this.pid_ctrl.Derivative:0.0000}";
+            this.dtxt_output.Text = $"{this.controller_output:0.0000}";
         }
 
 

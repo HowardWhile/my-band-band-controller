@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my_pid", "my_pid\my_pid.csproj", "{834BAF3B-C186-4333-BDC0-CDA0D3F7A2B5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PID_Example_2009", "PID_Test001\PID_Example_2009.csproj", "{2405FB54-04EF-4678-8303-06BB5722549C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "my_OnOff", "my_on_off\my_OnOff.csproj", "{834BAF3B-C186-4333-BDC0-CDA0D3F7A2B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{834BAF3B-C186-4333-BDC0-CDA0D3F7A2B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{834BAF3B-C186-4333-BDC0-CDA0D3F7A2B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{834BAF3B-C186-4333-BDC0-CDA0D3F7A2B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2405FB54-04EF-4678-8303-06BB5722549C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2405FB54-04EF-4678-8303-06BB5722549C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2405FB54-04EF-4678-8303-06BB5722549C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2405FB54-04EF-4678-8303-06BB5722549C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
