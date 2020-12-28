@@ -2,7 +2,7 @@
 
 # ON_OFF_Controller.cs
 
-
+![4](pic/readme/4.gif)
 
 ## Example
 
@@ -66,7 +66,9 @@ if (this.OnOff == 0) // IDLE
 
 ### On-off control with dead-band + hysteresis
 
-![image-20201228155322031](pic/readme/image-20201228155322031.png)
+![image-20201228160141808](pic/readme/image-20201228160141808.png)
+
+
 
 
 
